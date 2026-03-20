@@ -1,0 +1,80 @@
+/* School enrollment system consistent color theme */
+:root {
+  --primary-bg: #f2f6ff;
+  --primary-accent: #2a5cd8;
+  --secondary: #4058a8;
+  --surface: #ffffff;
+  --text: #1c2b49;
+  --muted: #6d7e9c;
+  --border: #dbe4f4;
+}
+
+body {
+  background: var(--primary-bg);
+  color: var(--text);
+  margin: 24px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+  color: var(--secondary);
+}
+
+button {
+  margin: 6px 6px 12px 0;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  background: var(--primary-accent);
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button:hover {
+  background: #1649a6;
+}
+
+#output {
+  margin-top: 18px;
+  white-space: pre-wrap;
+  background: var(--surface);
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--muted);
+}
+
+#enrolmentTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+#enrolmentTable th,
+#enrolmentTable td {
+  border: 1px solid var(--border);
+  padding: 10px;
+  text-align: left;
+}
+
+#enrolmentTable th {
+  background: #e1eaff;
+  color: var(--secondary);
+  font-weight: 700;
+}
+
+#enrolmentTable tbody tr:nth-child(odd) {
+  background: #ffffff;
+}
+
+#enrolmentTable tbody tr:nth-child(even) {
+  background: #f3f7ff;
+}
+
+#enrolmentTable .empty {
+  text-align: center;
+  color: var(--muted);
+}
