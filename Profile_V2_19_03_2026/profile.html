@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profile – Student Companion</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="wrapper">
+      <h1 class="logo">
+        <a href="index.html" class="h1">Student Companion</a>
+      </h1>
+    </div>
+  </header>
+
+  <nav class="main-nav" aria-label="Main navigation">
+    <div class="wrapper">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="timetable.html">Timetable</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="profile.html" aria-current="page">Profile</a></li>
+        <li><a href="#">Help</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main-content" class="main-content">
+    <div class="wrapper">
+      <div class="content-with-sidebar">
+
+        <article aria-labelledby="profile-heading">
+          <!-- PROFILE SUMMARY -->
+          <section class="profile-summary">
+            <div class="profile-info">
+              <h2 id="profile-heading">Your profile</h2>
+              <p class="profile-name">Kay McNulty</p>
+              <p class="profile-year">Year 1</p>
+              <p class="profile-course">BSc (Hons) Computer Science</p>
+              <p class="profile-id">Student ID: SC000234</p>
+            </div>
+             <img src="student-photo.jpg" alt="Profile photo of Aoife Murphy" class="profile-photo">
+          </section>
+
+          <!-- PERSONAL DETAILS -->
+          <section aria-labelledby="details-heading">
+            <h3 id="details-heading">Personal Details</h3>
+            <dl class="details-list">
+              <dt>University Email</dt>
+              <dd>
+                <a>
+                  aoife.murphy@mytudublin.ie
+                </a>
+              </dd>
+
+              <dt>Phone Number</dt>
+              <dd>+353 87 123 4567</dd>
+
+              <dt>Home Address</dt>
+              <dd>Blessington Road, Tallaght, Dublin 24, D24 FKT9, Ireland</dd>
+
+            </dl>
+          </section>
+
+          <!-- ACADEMIC DETAILS -->
+          <section aria-labelledby="academic-heading">
+            <h3 id="academic-heading">Academic information</h3>
+            <dl class="details-list">
+              <dt>Course Name</dt>
+              <dd>BSc (Hons) Computer Science</dd>
+
+              <dt>Year</dt>
+              <dd>1</dd>
+
+              <dt>Department</dt>
+              <dd>School of Computer Sceince and Digital Transformation</dd>
+
+
+            </dl>
+          </section>
+
+          <!-- REGISTRATION -->
+          <section aria-labelledby="registration-heading">
+            <h3 id="registration-heading">Registration status</h3>
+            <ul class="status-list">
+              <li class="status-card success">Semester 2 2025/26 – Registered</li>
+              <li class="status-card success">Fees – Paid (Ref:0190247829)</li>
+            </ul>
+          </section>
+
+          <!-- EVENT PARTICIPATION -->
+           <section aria-labelledby="participation-heading">
+            <h3 id="participation-heading">Upcoming events</h3>
+            <form class="event-attendance-form">
+              <fieldset>
+                <legend>Coding Society Games Night — 20 Mar 2026</legend>
+                <div class="attendance-options">
+                  <label>
+                    <input type="radio" name="event1" value="yes">
+                      Yes, I will attend
+                  </label>
+                  <label>
+                    <input type="radio" name="event1" value="no">
+                      No, I cannot attend
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend>Career Fair — 28 Mar 2026</legend>
+                  <div class="attendance-options">
+                    <label>
+                      <input type="radio" name="event2" value="yes">
+                        Yes, I will attend
+                    </label>
+                    <label>
+                      <input type="radio" name="event2" value="no">
+                        No, I cannot attend
+                    </label>
+                  </div>
+              </fieldset>
+
+              <fieldset>
+                <legend>Student Union Ball — 02 Apr 2026</legend>
+                  <div class="attendance-options">
+                  <label>
+                   <input type="radio" name="event3" value="yes">
+                     Yes, I will attend
+                  </label>
+                  <label>
+                    <input type="radio" name="event3" value="no">
+                      No, I cannot attend
+                    </label>
+                  </div>
+              </fieldset>
+
+              <button type="submit">Save attendance</button>
+          </form>
+      </section>
+
+
+          <!-- PAST EVENT PARTICIPATION -->
+          <section aria-labelledby="participation-heading">
+            <h3 id="participation-heading">Past Society Events</h3>
+
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Event</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Attended</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Coding Society Meetup</td>
+                  <td><time datetime="2025-02-12">12 Feb 2026</time></td>
+                  <td>Yes</td>
+                </tr>
+                <tr>
+                  <td>Library Orientation</td>
+                  <td><time datetime="2025-01-31">31 Jan 2026</time></td>
+                  <td>Yes</td>
+                </tr>
+                <tr>
+                  <td>Wellbeing Workshop</td>
+                  <td><time datetime="2025-01-23">23 Jan 2026</time></td>
+                  <td>No</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- PRIVACY SETTINGS -->
+          <section id="privacy" aria-labelledby="privacy-heading">
+            <h3 id="privacy-heading">Privacy & data settings</h3>
+
+            <form>
+              <div class="form-group">
+                <input type="checkbox" name="location" id="location">
+                <label for="location">
+                  Share location for personalised campus recommendations
+                </label>
+              </div>
+
+              <div class="form-group">
+                <input type="checkbox" name="ai" id="ai" checked>
+                <label for="ai">
+                  Enable AI recommendations based on my course and interests
+                </label>
+              </div>
+
+              <button type="button">Save preferences</button>
+            </form>
+          </section>
+
+          <!-- CONTACT EDIT -->
+          <section aria-labelledby="contact-heading">
+            <h3 id="contact-heading">Edit contact details</h3>
+
+            <form>
+              <div class="form-group">
+                <label for="email-edit">Email</label>
+                <input type="email" id="email-edit" value="kmcnulty@university.ie">
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone number</label>
+                <input type="tel" id="phone" value="0871234567">
+              </div>
+
+              <button type="button">Save changes</button>
+            </form>
+          </section>
+
+          <p><a href="#">View full privacy notice</a></p>
+        </article>
+
+        <aside class="sidebar" aria-labelledby="data-heading">
+          <h3 id="calendar-heading">Calendar</h3>
+
+        <div class="mini-calendar" aria-labelledby="calendar-heading">
+  <div class="calendar-header">
+    <span class="month">March 2026</span>
+  </div>
+
+  <table class="calendar-table">
+    <thead>
+      <tr>
+        <th scope="col">M</th>
+        <th scope="col">T</th>
+        <th scope="col">W</th>
+        <th scope="col">T</th>
+        <th scope="col">F</th>
+        <th scope="col">S</th>
+        <th scope="col">S</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td></td><td></td><td></td><td>1</td><td>2</td><td>3</td><td>4</td>
+      </tr>
+      <tr>
+        <td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td>
+      </tr>
+      <tr>
+        <td>12</td><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td>
+      </tr>
+      <tr>
+        <td>19</td><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td>
+      </tr>
+      <tr>
+        <td>26</td><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td><td></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+          
+          
+          <h3 id="data-heading">Your data</h3>
+          <p>
+            We store: name, student ID, email, course, year, timetable, event participation.
+            Location and AI preferences are optional.
+          </p>
+          <p><a href="#">Privacy policy</a></p>
+        </aside>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrapper">
+      <p>
+        © 2025 Student Companion.
+        <a href="index.html">Back to home</a> ·
+        <a href="#">Privacy policy</a>
+      </p>
+    </div>
+  </footer>
+
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Cookie consent">
+    <p>
+      We use cookies to improve your experience.
+      <a href="#">Cookie policy</a>
+    </p>
+    <button type="button" data-cookie-accept>Accept</button>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
