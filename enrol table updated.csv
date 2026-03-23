@@ -1,0 +1,16 @@
+student_number,student_name,date_of_birth,student_email,course_code,registration_date,status,semester,fees
+S1001,Emma Johnson,2004-04-23,emma.johnson@email.com,C101,2025-01-15,active,Semester 1,1200
+S1002,Liam O'Connor,2004-07-21,liam.oconnor@email.com,C102,2025-01-15,completed,Semester 1,1200
+S1003,Sophia Martinez,2004-03-05,sophia.martinez@email.com,C103,2025-01-15,completed,Semester 2,1500
+S1004,Noah Murphy,2005-06-29,noah.murphy@email.com,C104,2025-01-15,completed,Semester 2,1500
+S1005,Ava Smith,2004-10-26,ava.smith@email.com,C105,2025-01-15,completed,Semester 3,1800
+S1006,Jack Byrne,2005-04-28,jack.byrne@email.com,C101,2025-01-15,inactive,Semester 1,1200
+S1007,Isabella Rossi,2005-09-17,isabella.rossi@email.com,C102,2025-01-15,completed,Semester 1,1200
+S1008,Oliver Brown,2005-07-26,oliver.brown@email.com,C103,2025-01-15,active,Semester 2,1500
+S1009,Mia Kelly,2004-04-21,mia.kelly@email.com,C104,2025-01-15,inactive,Semester 2,1500
+S1010,Lucas Silva,2004-05-12,lucas.silva@email.com,C105,2025-01-15,inactive,Semester 3,1800
+S1011,Amelia Walsh,2003-03-17,amelia.walsh@email.com,C101,2025-01-15,completed,Semester 1,1200
+S1012,Ethan Clarke,2004-04-12,ethan.clarke@email.com,C102,2025-01-15,active,Semester 1,1200
+S1013,Harper White,2003-10-28,harper.white@email.com,C103,2025-01-15,completed,Semester 2,1500
+S1014,James Doyle,2003-09-08,james.doyle@email.com,C104,2025-01-15,completed,Semester 2,1500
+S1015,Ella Patel,2005-07-18,ella.patel@email.com,C105,2025-01-15,completed,Semester 3,1800
