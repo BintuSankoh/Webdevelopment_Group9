@@ -1,0 +1,16 @@
+student_number,student_name,student_email,course_code,course_name,phone_number,address,dob
+S1001,Emma Johnson,emma.johnson@student.university.ie,IT205,Database Systems,087-4528391,"12 Oak Lane, Dublin",1999-04-12
+S1002,Liam O'Connor,liam.oconnor@student.university.ie,BUS120,Principles of Marketing,086-9032245,"45 River Road, Cork",2000-07-22
+S1003,Sophia Martinez,sophia.martinez@student.university.ie,PHY110,General Physics I,089-7745120,"78 Hill Street, Galway",1998-11-03
+S1004,Noah Murphy,noah.murphy@student.university.ie,CHEM250,Analytical Chemistry,085-6123498,"9 Maple Drive, Limerick",1999-02-17
+S1005,Ava Smith,ava.smith@student.university.ie,IT101,Introduction to Programming,083-9982341,"33 Pine Avenue, Waterford",2001-05-09
+S1006,Jack Byrne,jack.byrne@student.university.ie,BUS410,Strategic Management,087-5401123,"56 Elm Park, Dublin",1998-09-14
+S1007,Isabella Rossi,isabella.rossi@student.university.ie,PHY320,Quantum Mechanics,086-7719034,"101 Cedar Lane, Kilkenny",2000-01-28
+S1008,Oliver Brown,oliver.brown@student.university.ie,CHEM101,Organic Chemistry I,089-6654321,"22 Birch Road, Sligo",1999-06-30
+S1009,Mia Kelly,mia.kelly@student.university.ie,IT205,Database Systems,085-2349876,"14 Willow Way, Dublin",2001-03-19
+S1010,Lucas Silva,lucas.silva@student.university.ie,BUS120,Principles of Marketing,083-7124590,"87 Lake View, Mayo",1998-12-25
+S1011,Amelia Walsh,amelia.walsh@student.university.ie,PHY110,General Physics I,087-9031124,"5 Sunset Boulevard, Kerry",1999-10-08
+S1012,Ethan Clarke,ethan.clarke@student.university.ie,CHEM250,Analytical Chemistry,086-5549087,"66 Harbour Street, Wexford",2000-04-02
+S1013,Harper White,harper.white@student.university.ie,IT101,Introduction to Programming,089-7712456,"39 Forest Gate, Meath",1999-08-11
+S1014,James Doyle,james.doyle@student.university.ie,BUS410,Strategic Management,085-6679032,"72 Mountain Road, Donegal",1998-03-27
+S1015,Ella Patel,ella.patel@student.university.ie,PHY320,Quantum Mechanics,083-9987123,"18 Valley Court, Louth",2001-01-05
