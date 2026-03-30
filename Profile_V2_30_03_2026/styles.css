@@ -1,0 +1,266 @@
+/* ==========================================================================
+   1. CSS VARIABLES & RESET
+   ========================================================================== */
+:root {
+  --primary: #0a2a43;         /* Deep Navy */
+  --primary-light: #e8f0f7;   /* Soft Navy Tint */
+  --accent: #1e90ff;          /* Modern Blue Accent */
+  --accent-light: #e8f4ff;
+  --bg: #f7f9fc;              /* Light Grey/Blue Background */
+  --surface: #ffffff;         /* White Cards */
+  --text: #1a1a1a;
+  --text-muted: #595959;
+  --border: #d9e1ea;
+  --radius: 0.75rem;
+  --shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+* { box-sizing: border-box; }
+
+html { 
+  font-size: 100%; 
+  scroll-behavior: smooth; 
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -3rem;
+  left: 1rem;
+  background: var(--primary);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  z-index: 100;
+}
+.skip-link:focus { top: 1rem; }
+
+/* ==========================================================================
+   2. LAYOUT & NAVIGATION
+   ========================================================================== */
+/* Updated Header Layout */
+.header-flex {
+  display: flex;
+  justify-content: space-between; /* Pushes logo to left and button to right */
+  align-items: center;            /* Vertically centers both */
+}
+
+/* Log out Button Styling */
+.btn-logout {
+  background-color: rgba(255, 255, 255, 0.1); /* Subtle transparent white */
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+  background-color: white;
+  color: var(--primary);
+  border-color: white;
+}
+
+/* Ensure logo doesn't shift on very small screens */
+@media (max-width: 30rem) {
+  .logo a {
+    font-size: 1.25rem;
+  }
+  .btn-logout {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+}
+   .wrapper {
+  max-width: 70rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Header */
+.site-header {
+  background: var(--primary);
+  color: white;
+  padding: 1.5rem 0;
+  box-shadow: var(--shadow);
+}
+
+.header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.logo a {
+  color: white;
+  text-decoration: none;
+}
+
+/* Navigation - Original Style */
+.main-nav {
+  background: white;
+  border-bottom: 1px solid var(--border);
+}
+
+.main-nav ul {
+  display: flex;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  margin: 0;
+  list-style: none;
+}
+
+.main-nav a {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.main-nav a:hover { background: var(--primary-light); }
+.main-nav a[aria-current="page"] {
+  background: var(--accent-light);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   3. PROFILE PAGE SPECIFIC STYLES
+   ========================================================================== */
+.main-content { padding: 2.5rem 0; }
+
+.content-with-sidebar {
+  display: grid;
+  grid-template-columns: 1fr 18rem;
+  gap: 2rem;
+}
+
+@media (max-width: 60rem) {
+  .content-with-sidebar { grid-template-columns: 1fr; }
+}
+
+/* Cards */
+article section, .sidebar section {
+  background: var(--surface);
+  padding: 1.75rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+}
+
+/* Sidebar Utilities */
+.highlight-card {
+  background: var(--primary) !important;
+  color: white !important;
+}
+
+.highlight-card h3 { color: var(--accent-light) !important; }
+
+/* Status cards */
+.status-card {
+  padding: 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 0.75rem;
+  background: var(--primary-light);
+  font-weight: 600;
+  border-left: 6px solid #2ecc71;
+}
+
+/* Profile Form Inputs */
+.edit-details-form input, 
+.edit-details-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-top: 0.5rem;
+}
+
+/* ==========================================================================
+   4. LOGIN PAGE SPECIFIC STYLES
+   ========================================================================== */
+.login-page {
+  background-color: var(--bg); /* Matches the profile page background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.brand-logo {
+  color: var(--primary);
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.login-card {
+  background: var(--surface);
+  padding: 2.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.btn-primary:hover { opacity: 0.9; }
+
+.form-utilities {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   5. FOOTER
+   ========================================================================== */
+.site-footer {
+  background: var(--primary);
+  color: white;
+  padding: 2rem 0;
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.site-footer a { color: var(--accent-light); text-decoration: none; }

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profile – Student Companion</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="wrapper header-flex">
+      <div class="logo">
+        <a href="index.html">Student Companion</a>
+      </div>
+      <div class="header-actions">
+        <a href="#" class="btn-logout">Log out</a>
+      </div>
+    </div>
+  </header>
+
+  <nav class="main-nav" aria-label="Main navigation">
+    <div class="wrapper">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="timetable.html">Timetable</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="profile.html" aria-current="page">Profile</a></li>
+        <li><a href="#">Help</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main-content" class="main-content">
+    <div class="wrapper">
+      <div class="content-with-sidebar">
+
+        <article aria-labelledby="profile-heading">
+          <section class="profile-summary">
+            <div class="profile-info">
+              <h2 id="profile-heading">Your profile</h2>
+              <p class="profile-name" id="display-name">Loading...</p>
+              <p class="profile-year" id="display-year"></p>
+              <p class="profile-course" id="display-course"></p>
+              <p class="profile-id" id="display-id"></p>
+            </div>
+          </section>
+
+          <section aria-labelledby="details-heading">
+            <h3 id="details-heading">Personal Details</h3>
+            <dl class="details-list">
+              <dt>University Email</dt>
+              <dd id="display-email">---</dd>
+              <dt>Phone Number</dt>
+              <dd id="display-mobile">---</dd>
+              <dt>Home Address</dt>
+              <dd>Blessington Road, Tallaght, Dublin 24, Ireland</dd>
+            </dl>
+          </section>
+
+          <section aria-labelledby="registration-heading">
+            <h3 id="registration-heading">Registration status</h3>
+            <ul class="status-list">
+              <li class="status-card success">Semester 2 2025/26 – Registered</li>
+              <li class="status-card success">Fees – Paid (Ref:0190247829)</li>
+            </ul>
+          </section>
+        </article>
+
+        <aside class="sidebar">
+          <section class="card highlight-card">
+            <h3>Up Next</h3>
+            <p class="class-time">14:00 — 16:00</p>
+            <p class="class-name">Software Development</p>
+            <p class="class-loc text-sm">Lab 1.02, Main Block</p>
+          </section>
+
+          <section class="card">
+            <h3>Quick Actions</h3>
+            <ul class="action-list">
+              <li><a href="#">Download Student ID</a></li>
+              <li><a href="#">View Results</a></li>
+              <li><a href="#">Contact Tutor</a></li>
+            </ul>
+          </section>
+        </aside>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js"></script>
+</body>
+</html>
