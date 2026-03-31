@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Enrollment System</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+
+    <!-- App script -->
+    <script defer>
+      // 1) Connect to Supabase
+      const SUPABASE_URL = "https://aqsdaqoquovkrwycgaeu.supabase.co";
+      const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxc2RhcW9xdW92a3J3eWNnYWV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk4Nzg4NjQsImV4cCI6MjA3NTQ1NDg2NH0.syK0lPFMWSkELBOezc5gvcEazU8j0j8t34Ak3DBfhCY";
+
+      let supabaseClient;
+      let enrollmentData = [];
+      let searchInput;
+
+      window.addEventListener("DOMContentLoaded", async () => {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        searchInput = document.getElementById("search-input");
+        searchInput?.addEventListener("input", applyEnrollmentFilter);
+        await loadEnrollment();
+      });
+
+      // 2) Fetch and render
+      async function loadEnrollment() {
+        const tableBody = document.getElementById("enrollment-table");
+        const statusEl = document.getElementById("status");
+        tableBody.innerHTML = '<tr><td colspan="12">Loading data…</td></tr>';
+
+        const { data, error } = await supabaseClient
+          .from("enrollment")
+          .select("id, student_name, dob, student_email, course_code, course_name, enrollment_date, registration_status, payment_status, credits, semester, created_at")
+          .order("id", { ascending: true });
+
+        if (error) {
+          console.error("Error fetching data:", error);
+          tableBody.innerHTML = '<tr><td colspan="12">Error loading data</td></tr>';
+          statusEl.textContent = error.message || "Query failed";
+          return;
+        }
+
+        if (!data || data.length === 0) {
+          tableBody.innerHTML = '<tr><td colspan="12">No students found</td></tr>';
+          statusEl.textContent = "Tip: add a few rows in the Table Editor.";
+          return;
+        }
+
+        enrollmentData = data;
+        renderEnrollmentRows(enrollmentData);
+        statusEl.textContent = "";
+      }
+
+      function renderEnrollmentRows(rows) {
+        const tableBody = document.getElementById("enrollment-table");
+        tableBody.innerHTML = "";
+        if (!rows || rows.length === 0) {
+          tableBody.innerHTML = '<tr><td colspan="12">No matching records found</td></tr>';
+          return;
+        }
+
+        rows.forEach((enrollment) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${enrollment.id ?? ""}</td>
+            <td>${enrollment.student_name ?? ""}</td>
+            <td>${enrollment.dob ?? ""}</td>
+            <td>${enrollment.student_email ?? ""}</td>
+            <td>${enrollment.course_code ?? ""}</td>
+            <td>${enrollment.course_name ?? ""}</td>
+            <td>${enrollment.enrollment_date ?? ""}</td>
+            <td>${enrollment.registration_status ?? ""}</td>
+            <td>${enrollment.payment_status ?? ""}</td>
+            <td>${enrollment.credits ?? ""}</td>
+            <td>${enrollment.semester ?? ""}</td>
+            <td>${enrollment.created_at ?? ""}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      }
+
+      function applyEnrollmentFilter() {
+        const query = (searchInput?.value || "").trim().toLowerCase();
+        if (!query) {
+          renderEnrollmentRows(enrollmentData);
+          return;
+        }
+
+        const filtered = enrollmentData.filter((enrollment) => {
+          const rowText = Object.values(enrollment)
+            .map((value) => String(value ?? ""))
+            .join(" ")
+            .toLowerCase();
+          return rowText.includes(query);
+        });
+        renderEnrollmentRows(filtered);
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="app-wrapper">
+      <header class="top-bar">
+        <div class="brand">
+          <h1>Student Enrollment System</h1>
+          <p>Clear, fast, and accessible student enrollment data with built-in actions.</p>
+        </div>
+        <nav class="site-nav">
+          <a href="enrol.html" class="active">Enrollment System</a>
+          <a href="Delete.html">Delete Current Students</a>
+          <a href="new-registration.html">Add New Students</a>
+
+        </nav>
+      </header>
+
+      <section class="controls-grid">
+        <article class="info-card">
+          <h3>Enrollment Dashboard</h3>
+          <p>Review the latest student records and enrollment statuses in one place.</p>
+        </article>
+        <article class="info-card">
+          <h3>Easy Access</h3>
+          <p>Search across all enrollment records using the live search field below.</p>
+        </article>
+      </section>
+
+      <section class="table-area">
+        <div class="search-row" style="margin-bottom:16px;">
+          <label for="search-input" style="display:block;margin-bottom:6px;font-weight:600;">Search records</label>
+          <input id="search-input" type="search" placeholder="Search by student name, ID, email, course code, status..." style="width:100%;max-width:500px;padding:10px;border:1px solid #ccc;border-radius:6px;" />
+        </div>
+        <h2>Active Enrollment Records</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Student Number</th>
+              <th>Student Name</th>
+              <th>Date of Birth</th>
+              <th>Student Email</th>
+              <th>Course Code</th>
+              <th>Course Name</th>
+              <th>Enrollment Date</th>
+              <th>Registration Status</th>
+              <th>Payment Status</th>
+              <th>Credits</th>
+              <th>Semester</th>
+              <th>Created At</th>
+            </tr>
+          </thead>
+          <tbody id="enrollment-table">
+            <tr>
+              <td colspan="12">Loading data…</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div id="status" class="status"></div>
+      </section>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Enrollment System - Delete Current Students</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Supabase JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+      defer
+    ></script>
+
+    <!-- Page script -->
+    <script defer>
+      // 1) Connect to Supabase 
+        const SUPABASE_URL = "https://aqsdaqoquovkrwycgaeu.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxc2RhcW9xdW92a3J3eWNnYWV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk4Nzg4NjQsImV4cCI6MjA3NTQ1NDg2NH0.syK0lPFMWSkELBOezc5gvcEazU8j0j8t34Ak3DBfhCY";
+      let supabaseClient;
+
+      window.addEventListener("DOMContentLoaded", async () => {
+        supabaseClient = window.supabase.createClient(
+          SUPABASE_URL,
+          SUPABASE_ANON_KEY
+        );
+        await loadEnrollment();
+      });
+
+      // 2) Fetch students from Supabase and display in table
+      async function loadEnrollment() {
+        const tableBody = document.getElementById("enrollment-table");
+        const statusEl = document.getElementById("status");
+
+        tableBody.innerHTML = '<tr><td colspan="5">Loading data…</td></tr>';
+
+        const { data, error } = await supabaseClient
+          .from("enrollment") // make sure this matches your table name
+          .select("id, student_name, dob, student_email") // adjust columns as needed
+          .order("id", { ascending: true });
+
+        if (error) {
+          tableBody.innerHTML =
+            '<tr><td colspan="5">Error loading data</td></tr>';
+          statusEl.textContent = error.message;
+          return;
+        }
+
+        if (!data || data.length === 0) {
+          tableBody.innerHTML =
+            '<tr><td colspan="5">No students found</td></tr>';
+          statusEl.textContent = "Tip: add students in Supabase Table Editor.";
+          return;
+        }
+
+        tableBody.innerHTML = "";
+        data.forEach((enrolment, index) => { // for each student, create a table row with a delete button
+          const row = document.createElement("tr");
+
+          row.innerHTML = `
+            <td>${enrolment.id ?? ""}</td>
+            <td>${enrolment.student_name ?? ""}</td>
+            <td>${enrolment.dob ?? ""}</td>
+            <td>${enrolment.student_email ?? ""}</td>
+            <td> 
+                <button class="btn-delete" onclick="deleteEnrollment(${
+                  enrolment.id
+                }, this)"> Delete </button>    
+            </td>
+          `;
+
+          tableBody.appendChild(row);
+        });
+
+        statusEl.textContent = "";
+      }
+
+      // 3) Delete student (Delete the info from the database)
+      async function deleteEnrollment(id, btnEl) {
+        const statusEl = document.getElementById("status");
+
+        if (!confirm(`Delete student ID ${id}?`)) return;
+
+        btnEl.disabled = true;
+        statusEl.textContent = "Deleting...";
+
+        try {
+          //  Ask Supabase to return the deleted row
+          // This code removes a specific student from the database using their ID and confirms that the row was deleted.
+          const { data, error } = await supabaseClient
+            .from("enrollment")
+            .delete()
+            .eq("id", id) //
+            .select("id"); // very important to select something to get the deleted row back
+
+          if (error) {
+            console.error("Delete error:", error);
+            statusEl.textContent = "Delete failed: " + (error.message || "");
+            return;
+          }
+
+         // If Supabase deleted 0 rows, do NOT remove from UI
+          if (!data || data.length === 0) {
+            statusEl.textContent =
+              "Not deleted in Supabase (0 rows). Check RLS policy / ID type.";
+            return;
+          }
+
+          // Remove the deleted student's row from the table, shows a confirmation message, and refreshes the list.
+          const rowEl = btnEl.closest("tr");
+          if (rowEl) rowEl.remove();
+
+          statusEl.textContent = "Student deleted ✔";
+          await loadEnrollment();
+          setTimeout(() => (statusEl.textContent = ""), 1200);
+        } finally {
+          btnEl.disabled = false;
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="app-wrapper">
+      <header class="top-bar">
+        <div class="brand">
+          <h1>Student Enrollment System</h1>
+          <p>Safe student deletion workflow with one-click removal.</p>
+        </div>
+        <nav class="site-nav">
+          <a href="enrol.html">Enrollment List</a>
+          <a href="Delete.html" class="active">Delete Students</a>
+        </nav>
+      </header>
+
+      <section class="table-area">
+        <h2>Students (Remove as needed)</h2>
+        <div class="table-actions">
+          <button class="btn-refresh" onclick="loadEnrollment()">Refresh list</button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Order</th>
+              <th>Name</th>
+              <th>Date of Birth</th>
+              <th>Email</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="enrollment-table">
+            <tr>
+              <td colspan="5">Loading data…</td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="status" class="status"></div>
+      </section>
+    </div>
+  </body>
+</html>
