@@ -1,0 +1,18 @@
+student_number,student_name,dob,student_email,course_code,course_name,enrollment_date,registration_status,payment_status,credits,semester,created_at
+S1001,Emma Johnson,1999-04-12,emma.johnson@student.university.ie,IT205,Database Systems,2025-01-10,Active,Paid,5,Spring 2025,2025-01-10 09:00
+S1001,Emma Johnson,1999-04-12,emma.johnson@student.university.ie,C102,Database Systems,2025-01-10,Active,Unpaid,5,Spring 2025,2025-01-10 09:05
+S1002,Liam O'Connor,2000-07-22,liam.oconnor@student.university.ie,BUS120,Principles of Marketing,2025-01-12,Active,Paid,5,Spring 2025,2025-01-12 10:15
+S1002,Liam O'Connor,2000-07-22,liam.oconnor@student.university.ie,C103,Principles of Marketing,2025-01-12,Pending,Unpaid,5,Spring 2025,2025-01-12 10:20
+S1003,Sophia Martinez,1998-11-03,sophia.martinez@student.university.ie,PHY110,General Physics I,2025-01-15,Active,Paid,4,Spring 2025,2025-01-15 11:00
+S1004,Noah Murphy,1999-02-17,noah.murphy@student.university.ie,CHEM250,Analytical Chemistry,2025-01-16,Active,Paid,5,Spring 2025,2025-01-16 09:45
+S1005,Ava Smith,2001-05-09,ava.smith@student.university.ie,IT101,Introduction to Programming,2025-01-17,Active,Unpaid,5,Spring 2025,2025-01-17 14:10
+S1006,Jack Byrne,1998-09-14,jack.byrne@student.university.ie,BUS410,Strategic Management,2025-01-18,Active,Paid,5,Spring 2025,2025-01-18 08:55
+S1007,Isabella Rossi,2000-01-28,isabella.rossi@student.university.ie,PHY320,Quantum Mechanics,2025-01-19,Pending,Unpaid,5,Spring 2025,2025-01-19 12:30
+S1008,Oliver Brown,1999-06-30,oliver.brown@student.university.ie,CHEM101,Organic Chemistry I,2025-01-20,Active,Paid,4,Spring 2025,2025-01-20 09:20
+S1009,Mia Kelly,2001-03-19,mia.kelly@student.university.ie,IT205,Database Systems,2025-01-20,Active,Paid,5,Spring 2025,2025-01-20 09:25
+S1010,Lucas Silva,1998-12-25,lucas.silva@student.university.ie,BUS120,Principles of Marketing,2025-01-21,Active,Unpaid,5,Spring 2025,2025-01-21 10:40
+S1011,Amelia Walsh,1999-10-08,amelia.walsh@student.university.ie,PHY110,General Physics I,2025-01-22,Active,Paid,4,Spring 2025,2025-01-22 11:05
+S1012,Ethan Clarke,2000-04-02,ethan.clarke@student.university.ie,CHEM250,Analytical Chemistry,2025-01-22,Pending,Unpaid,5,Spring 2025,2025-01-22 11:10
+S1013,Harper White,1999-08-11,harper.white@student.university.ie,IT101,Introduction to Programming,2025-01-23,Active,Paid,5,Spring 2025,2025-01-23 13:00
+S1014,James Doyle,1998-03-27,james.doyle@student.university.ie,BUS410,Strategic Management,2025-01-24,Active,Paid,5,Spring 2025,2025-01-24 09:50
+S1015,Ella Patel,2001-01-05,ella.patel@student.university.ie,PHY320,Quantum Mechanics,2025-01-25,Active,Unpaid,5,Spring 2025,2025-01-25 10:10
