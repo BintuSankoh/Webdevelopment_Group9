@@ -1,0 +1,82 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0a1f44, #1f4aa8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Admin button */
+.admin-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: white;
+    color: #0a1f44;
+    padding: 8px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Login card */
+.login-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    width: 300px;
+    text-align: center;
+}
+
+h1 {
+    color: #0a1f44;
+}
+
+/* Inputs */
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+/* Buttons */
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #0a1f44;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Dashboard */
+.dashboard-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 600px;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th {
+    background-color: #0a1f44;
+    color: white;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Delete button */
+.delete {
+    background-color: red;
+}
