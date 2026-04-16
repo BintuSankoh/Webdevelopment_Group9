@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Enrolment System</title>
+    <link rel="stylesheet" href="enrolmenthomepage.css" />
+    <script>
+      const SUPABASE_URL = 'https://tqrngdjuuhsxvploruwd.supabase.co';
+      const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxcm5nZGp1dWhzeHZwbG9ydXdkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4OTYzNTksImV4cCI6MjA5MTQ3MjM1OX0.W8LZRV71_cSny4mwOS12--iPRv3wfARBV1lNU_Ts45Y';
+      const TABLE_NAME = 'student_enrolment';
+
+      function buildHeaders() {
+        return {
+          'Content-Type': 'application/json',
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+        };
+      }
+
+      async function fetchStudents() {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE_NAME}?select=*`, {
+          headers: buildHeaders(),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Supabase fetchStudents failed: ${response.statusText}`);
+        }
+
+        return response.json();
+      }
+
+      let allStudents = [];
+
+      window.addEventListener('DOMContentLoaded', async () => {
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+          searchInput.addEventListener('input', () => {
+            renderStudentTable(filterStudents(searchInput.value));
+          });
+        }
+
+        await loadStudents();
+      });
+
+      function filterStudents(searchTerm) {
+        const query = String(searchTerm || '').trim().toLowerCase();
+        if (!query) {
+          return allStudents;
+        }
+
+        return allStudents.filter((student_enrolment) => {
+          const values = [
+            student_enrolment.student_number,
+            student_enrolment.student_name,
+            student_enrolment.dob,
+            student_enrolment.student_email,
+            student_enrolment.course_code,
+            student_enrolment.course_name,
+            student_enrolment.enrollment_date,
+            student_enrolment.registration_status,
+            student_enrolment.payment_status,
+            student_enrolment.credits,
+            student_enrolment.semester,
+            student_enrolment.created_at,
+          ]
+            .filter(Boolean)
+            .map((value) => String(value).toLowerCase())
+            .join(' ');
+
+          return values.includes(query);
+        });
+      }
+
+      function renderStudentTable(students) {
+        const tableBody = document.getElementById('student_enrolment');
+        const statusEl = document.getElementById('status');
+
+        if (!students || students.length === 0) {
+          tableBody.innerHTML = '<tr><td colspan="12">No matching students found.</td></tr>';
+          if (statusEl) statusEl.textContent = '';
+          return;
+        }
+
+        if (statusEl) statusEl.textContent = '';
+        tableBody.innerHTML = '';
+        students.forEach((student_enrolment) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${student_enrolment.student_number ?? ''}</td>
+            <td>${student_enrolment.student_name ?? ''}</td>
+            <td>${student_enrolment.dob ?? ''}</td>
+            <td>${student_enrolment.student_email ?? ''}</td>
+            <td>${student_enrolment.course_code ?? ''}</td>
+            <td>${student_enrolment.course_name ?? ''}</td>
+            <td>${student_enrolment.enrollment_date ?? ''}</td>
+            <td>${student_enrolment.registration_status ?? ''}</td>
+            <td>${student_enrolment.payment_status ?? ''}</td>
+            <td>${student_enrolment.credits ?? ''}</td>
+            <td>${student_enrolment.semester ?? ''}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      }
+
+      async function loadStudents() {
+        const tableBody = document.getElementById('student_enrolment');
+        const statusEl = document.getElementById('status');
+        const countEl = document.getElementById('totalCount');
+
+        tableBody.innerHTML = '<tr><td colspan="12">Loading students…</td></tr>';
+        if (statusEl) {
+          statusEl.textContent = '';
+          statusEl.className = 'status';
+        }
+
+        try {
+          const data = await fetchStudents();
+          allStudents = data || [];
+          if (countEl) countEl.textContent = allStudents.length;
+
+          if (!allStudents.length) {
+            tableBody.innerHTML = '<tr><td colspan="12">No students available yet.</td></tr>';
+            if (statusEl) statusEl.textContent = 'Add a student from the form to see them here.';
+            return;
+          }
+
+          renderStudentTable(allStudents);
+        } catch (error) {
+          console.error('Error loading students:', error);
+          tableBody.innerHTML = '<tr><td colspan="12">Unable to load students.</td></tr>';
+          if (statusEl) {
+            statusEl.textContent = 'Could not load students. Check the console for details.';
+            statusEl.className = 'status error';
+          }
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="page">
+      <div class="topbar">
+        <div class="brand">
+          <div class="brand__title">Student Enrolment System</div>
+          <p class="brand__subtitle">A simple interface to manage student enrollments, track course registrations, and monitor payment statuses with ease.</p>
+
+        <div class="nav-buttons">
+          <a class="button-add" href="enrolmentaddnewstudent.html">➕ Add New Student</a>
+          <a class="button-delete" href="enrolmentdeletecurrentstudent.html">🗑️ Delete Current Student</a>
+        </div>
+      </div>
+
+      <div class="hero-grid">
+        <section class="card card--highlight">
+          <div class="card__icon">🎓</div>
+          <p class="card__title">Enrolled Students</p>
+          <h3 class="card__value" id="totalCount">0</h3>
+          <p class="card__text">Total number of students currently tracked in the enrollment system.</p>
+        </section>
+
+        
+
+        <section class="card">
+          <div class="card__icon">⚡</div>
+          <p class="card__title">Quick Access</p>
+          <h3 class="card__value">Fast Actions</h3>
+          <p class="card__text">Jump directly to the add or delete enrollment pages with a single click.</p>
+        </section>
+      </div>
+
+      <div class="table-panel">
+        <div class="table-header">
+          <div>
+            <h2>Recent Student Preview</h2>
+            <p>Latest enrolled students from the database, updated automatically on page load.</p>
+          </div>
+          <div class="status" id="status"></div>
+        </div>
+        <div class="table-scroll">
+          <table class="student-table">
+            <thead>
+              <tr>
+                <th>Student Number</th>
+                <th>Student Name</th>
+                <th>Date of Birth</th>
+                <th>Student Email</th>
+                <th>Course Code</th>
+                <th>Course Name</th>
+                <th>Enrolment Date</th>
+                <th>Registration Status</th>
+                <th>Payment Status</th>
+                <th>Credits</th>
+                <th>Semester</th>
+         
+              </tr>
+            </thead>
+            <tbody id="student_enrolment">
+              <tr>
+                <td colspan="12">Loading students…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

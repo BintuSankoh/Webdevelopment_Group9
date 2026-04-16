@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add New Student</title>
+  <link rel="stylesheet" href="enrolmentaddnewstudent.css" />
+</head>
+<body>
+  <div class="page">
+    <nav class="tabs">
+      <a class="tab" href="enrolmenthomepage.html">Homepage</a>
+      <a class="tab active" href="enrolmentaddnewstudent.html">Add Student</a>
+      <a class="tab" href="enrolmentdeletecurrentstudent.html">Delete Student</a>
+    </nav>
+    <header class="header">
+      <div class="icon-badge">➕</div>
+      <div>
+        <h1 class="hero-title">Add New Student</h1>
+        <p class="hero-copy">Quickly add a new student to the enrollment database using Supabase. Fill in the student profile and submit to save the record.</p>
+      </div>
+    </header>
+
+    <section class="card">
+      <div class="section-title"><span>📝</span> Student Details</div>
+      <div class="form-grid">
+        <label>
+          Student number
+          <input id="studentNumber" type="text" placeholder="S12345" />
+        </label>
+        <label>
+          First name
+          <input id="firstName" type="text" placeholder="First name" />
+        </label>
+        <label>
+          Last name
+          <input id="lastName" type="text" placeholder="Last name" />
+        </label>
+        <label>
+          Email
+          <input id="email" type="email" placeholder="name@example.com" />
+        </label>
+        <label>
+          Course code
+          <input id="courseCode" type="text" placeholder="E.g. CS101" />
+        </label>
+        <label>
+          Course name
+          <input id="courseName" type="text" placeholder="E.g. Web Development" />
+        </label>
+        <label>
+          Semester
+          <select id="semester">
+            <option value="">Select semester</option>
+            <option>Spring 2026</option>
+            <option>Summer 2026</option>
+            <option>Fall 2026</option>
+            <option>Winter 2026</option>
+          </select>
+        </label>
+        <label>
+          Registration status
+          <select id="registrationStatus">
+            <option value="">Select status</option>
+            <option>Active</option>
+            <option>Pending</option>
+            <option>Completed</option>
+          </select>
+        </label>
+        <label>
+          Payment status
+          <select id="paymentStatus">
+            <option value="">Select payment</option>
+            <option>Paid</option>
+            <option>Pending</option>
+            <option>Overdue</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="button-row">
+        <button id="addStudentBtn" class="btn-primary">Add student</button>
+        <button id="resetBtn" class="btn-secondary" type="button">Reset form</button>
+      </div>
+
+      <p id="statusMessage" class="message"></p>
+    </section>
+  </div>
+  <script>
+    const SUPABASE_URL = 'https://tqrngdjuuhsxvploruwd.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxcm5nZGp1dWhzeHZwbG9ydXdkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4OTYzNTksImV4cCI6MjA5MTQ3MjM1OX0.W8LZRV71_cSny4mwOS12--iPRv3wfARBV1lNU_Ts45Y';
+    const TABLE_NAME = 'student_enrolment';
+
+    function buildHeaders() {
+      return {
+        'Content-Type': 'application/json',
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+      };
+    }
+
+    async function addStudent(student_enrolment) {
+      const response = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE_NAME}`, {
+        method: 'POST',
+        headers: buildHeaders(),
+        body: JSON.stringify(student_enrolment),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Supabase addStudent failed: ${response.statusText}`);
+      }
+
+      return response.json();
+    }
+
+    const studentNumberInput = document.getElementById('studentNumber');
+    const firstNameInput = document.getElementById('firstName');
+    const lastNameInput = document.getElementById('lastName');
+    const emailInput = document.getElementById('email');
+    const courseCodeInput = document.getElementById('courseCode');
+    const courseNameInput = document.getElementById('courseName');
+    const semesterInput = document.getElementById('semester');
+    const registrationStatusInput = document.getElementById('registrationStatus');
+    const paymentStatusInput = document.getElementById('paymentStatus');
+    const addStudentBtn = document.getElementById('addStudentBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const statusMessage = document.getElementById('statusMessage');
+
+    function showMessage(text, type = 'success') {
+      statusMessage.textContent = text;
+      statusMessage.className = `message ${type}`;
+    }
+
+    function clearMessage() {
+      statusMessage.textContent = '';
+      statusMessage.className = 'message';
+    }
+
+    function getFormData() {
+      return {
+        student_number: studentNumberInput.value.trim() || null,
+        first_name: firstNameInput.value.trim(),
+        last_name: lastNameInput.value.trim(),
+        email: emailInput.value.trim(),
+        course_code: courseCodeInput.value.trim(),
+        course_name: courseNameInput.value.trim(),
+        semester: semesterInput.value,
+        registration_status: registrationStatusInput.value,
+        payment_status: paymentStatusInput.value,
+      };
+    }
+
+    function validateForm(data) {
+      if (!data.first_name || !data.last_name || !data.email) {
+        showMessage('First name, last name, and email are required.', 'error');
+        return false;
+      }
+
+      if (!data.course_code || !data.course_name) {
+        showMessage('Course code and course name are required.', 'error');
+        return false;
+      }
+
+      if (!data.semester) {
+        showMessage('Please select a semester.', 'error');
+        return false;
+      }
+
+      return true;
+    }
+
+    function resetForm() {
+      studentNumberInput.value = '';
+      firstNameInput.value = '';
+      lastNameInput.value = '';
+      emailInput.value = '';
+      courseCodeInput.value = '';
+      courseNameInput.value = '';
+      semesterInput.value = '';
+      registrationStatusInput.value = '';
+      paymentStatusInput.value = '';
+      clearMessage();
+    }
+
+    addStudentBtn.addEventListener('click', async () => {
+      clearMessage();
+      const student_enrolment = getFormData();
+
+      if (!validateForm(student_enrolment)) {
+        return;
+      }
+
+      try {
+        addStudentBtn.disabled = true;
+        addStudentBtn.textContent = 'Saving...';
+        await addStudent(student_enrolment);
+        showMessage('Student added successfully!', 'success');
+        resetForm();
+      } catch (error) {
+        console.error(error);
+        showMessage('Could not save student. Check the console for details.', 'error');
+      } finally {
+        addStudentBtn.disabled = false;
+        addStudentBtn.textContent = 'Add student';
+      }
+    });
+
+    resetBtn.addEventListener('click', resetForm);
+  </script>
+</body>
+</html>
