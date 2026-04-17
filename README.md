@@ -34,6 +34,73 @@
         <h3>Societies</h3>
         <p>Join clubs and meet new people.</p>
       </div>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #0b1f3a; /* dark blue */
+  color: white;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #08162b;
+}
+
+nav a {
+  margin-left: 15px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* Hero section */
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.hero button {
+  background-color: white;
+  color: #0b1f3a;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.hero button:hover {
+  opacity: 0.8;
+}
+
+/* Features */
+.features {
+  display: flex;
+  justify-content: space-around;
+  padding: 40px;
+}
+
+.card {
+  background-color: white;
+  color: #0b1f3a;
+  padding: 20px;
+  border-radius: 10px;
+  width: 25%;
+  text-align: center;
+}
+
+
+
+      [styles.css](https://github.com/user-attachments/files/26829034/styles.css)
+
 
       <div class="card">
         <h3>News</h3>
