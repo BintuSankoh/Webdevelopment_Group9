@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timetable – Student Companion</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="wrapper header-flex">
+      <div class="logo">
+        <a href="index.html">Student Companion</a>
+      </div>
+      <div class="header-icons">
+        <button id="notif-btn" class="icon-btn">
+          🔔
+          <span id="notif-count" class="notif-count">3</span>
+        </button>
+        <button class="btn-secondary btn" onclick="
+        localStorage.removeItem('studentNumber');
+        localStorage.removeItem('studentName');
+        localStorage.removeItem('studentLoginIN');
+        window.location.href='login.html';
+      ">
+        Logout
+      </button>
+      </div>
+    </div>
+  </header>
+
+  <div id="notif-panel" class="notif-panel" hidden>
+    <h3>Notifications</h3>
+    <ul id="notifications-list">
+    <li>Loading notifications…</li>
+  </ul>
+</div>
+
+  <nav>
+    <div class="wrapper">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="timetable.html" aria-current="page">Timetable</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="profile.html">Profile</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main" class="wrapper">
+    <h1>My Timetable</h1>
+
+    <div class="timetable-wrapper">
+      <table class="timetable">
+        <caption>Your weekly class timetable</caption>
+        <thead>
+          <tr>
+            <th scope="col">Time</th>
+            <th scope="col">Monday</th>
+            <th scope="col">Tuesday</th>
+            <th scope="col">Wednesday</th>
+            <th scope="col">Thursday</th>
+            <th scope="col">Friday</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>09:00–10:00</td>
+            <td>Principles of Marketing / Organic Chemistry I</td>
+            <td>Introduction to Programming / General Physics I</td>
+            <td>Strategic Management / Analytical Chemistry</td>
+            <td>Database Systems / Quantum Mechanics</td>
+            <td>Principles of Marketing / General Physics I</td>
+          </tr>
+          <tr>
+            <td>10:00–11:00</td>
+            <td>Analytical Chemistry / Database Systems</td>
+            <td>Organic Chemistry I / Principles of Marketing</td>
+            <td>Introduction to Programming / Quantum Mechanics</td>
+            <td>Strategic Management / General Physics I</td>
+            <td>Analytical Chemistry / Database Systems</td>
+          </tr>
+          <tr>
+            <td>11:00–12:00</td>
+            <td>Introduction to Programming / Quantum Mechanics</td>
+            <td>Strategic Management / General Physics I</td>
+            <td>Principles of Marketing / Organic Chemistry I</td>
+            <td>Analytical Chemistry / Database Systems</td>
+            <td>Strategic Management / Quantum Mechanics</td>
+          </tr>
+          <tr>
+            <td>12:00–13:00</td>
+            <td>Lunch</td>
+            <td>Lunch</td>
+            <td>Lunch</td>
+            <td>Lunch</td>
+            <td>Lunch</td>
+          </tr>
+          <tr>
+            <td>13:00–14:00</td>
+            <td>General Physics I / Strategic Management</td>
+            <td>Analytical Chemistry / Database Systems</td>
+            <td>Introduction to Programming / Principles of Marketing</td>
+            <td>Organic Chemistry I / Quantum Mechanics</td>
+            <td>Introduction to Programming / General Physics I</td>
+          </tr>
+          <tr>
+            <td>14:00–15:00</td>
+            <td>Organic Chemistry I / Database Systems</td>
+            <td>Principles of Marketing / Quantum Mechanics</td>
+            <td>Strategic Management / General Physics I</td>
+            <td>Introduction to Programming / Analytical Chemistry</td>
+            <td>Organic Chemistry I / Database Systems</td>
+          </tr>
+            <tr>
+            <td>15:00–16:00</td>
+            <td>Principles of Marketing / Introduction to Programming</td>
+            <td>General Physics I / Organic Chemistry I</td>
+            <td>Analytical Chemistry / Database Systems</td>
+            <td>Strategic Management / Quantum Mechanics</td>
+            <td>Principles of Marketing / Introduction to Programming</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 Student Companion
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

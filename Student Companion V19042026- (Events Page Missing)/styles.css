@@ -1,0 +1,454 @@
+/* =========================================================
+   COLOR SYSTEM — WHITE + NAVY + BLUE FOR SAFETY
+   ========================================================= */
+
+:root {
+  --navy-dark: #0a1a33;
+  --navy-mid: #16325c; /* gradient end */
+  --blue-accent: #0a84ff; /* Apple-style blue */
+  --blue-accent-soft: #4da3ff;
+
+  --bg-page: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-tint: #f7faff;
+
+  --text-main: #0a1a33;
+  --text-muted: #4a5a75;
+
+  --radius: 1rem;
+  --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0 18px 45px rgba(0, 0, 0, 0.12);
+
+  --transition-fast: 0.18s ease-out;
+  --transition-med: 0.25s ease-out;
+}
+
+/* =========================================================
+   GLOBAL RESET + BASE, REMOVE BROWSER INCONSISTANT DEFAULTS 
+   ========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg-page);
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+.wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+:focus-visible {
+  outline: 3px solid var(--blue-accent);
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+header {
+  background: linear-gradient(90deg, var(--navy-dark), var(--navy-mid));
+  color: white;
+  padding: 0.9rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+}
+
+.header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+/* =========================================================
+   NAVIGATION BAR
+   ========================================================= */
+
+nav {
+  background: linear-gradient(90deg, var(--navy-dark), var(--navy-mid));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+nav ul {
+  display: flex;
+  gap: 0.4rem;
+  list-style: none;
+  margin: 0;
+  padding: 0.6rem 0;
+}
+
+nav a {
+  text-decoration: none;
+  color: #dbe6ff;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  transition: var(--transition-fast);
+}
+
+nav a:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+nav a[aria-current="page"] {
+  background: var(--blue-accent);
+  color: white;
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.btn {
+  padding: 0.6rem 1.1rem;
+  border-radius: 999px;
+  background: var(--blue-accent);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--transition-med);
+}
+
+.btn:hover {
+  background: var(--blue-accent-soft);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: white;
+}
+
+/* =========================================================
+   NOTIFICATION BELL
+   ========================================================= */
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  font-size: 1.2rem;
+  color: white;
+  user-select: none;
+  transition: opacity 0.2s ease;
+}
+
+.icon-btn:hover {
+  opacity: 0.7;
+}
+
+
+.notif-count {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  background: #ff4757;
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-weight: bold;
+}
+
+.notif-panel {
+  position: absolute;
+  right: 1rem;
+  top: 70px;
+  width: 260px;
+  background: white;
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow-medium);
+  z-index: 50;
+}
+
+.notif-panel {
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.notif-panel.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================================
+   CARDS + GRID
+   ========================================================= */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--bg-card);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  transition: var(--transition-med);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-medium);
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+.page-intro {
+  color: var(--text-muted);
+}
+
+/* =========================================================
+   TODAY'S SCHEDULE - NOT IN USE 
+   ========================================================= */
+
+.today-schedule ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.today-schedule li {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #e5e8ef;
+}
+
+/* =========================================================
+   LOGIN PAGE
+   ========================================================= */
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.25rem;
+  background: linear-gradient(180deg, var(--navy-dark), var(--navy-mid));
+}
+
+.login-card {
+  background: white;
+  padding: 2.2rem 2rem;
+  border-radius: 1.2rem;
+  box-shadow: var(--shadow-medium);
+  width: 100%;
+  max-width: 420px;
+}
+
+.login-card h1 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.login-card p {
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.form-group {
+  margin-bottom: 1.1rem;
+}
+
+label {
+  display: block;
+  font-size: 0.85rem;
+  margin-bottom: 0.35rem;
+  color: var(--text-muted);
+}
+
+input {
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border-radius: 0.7rem;
+  border: 1px solid #c7d2e8;
+  background: #f7faff;
+  color: var(--text-main);
+  font-size: 0.95rem;
+}
+
+input:focus-visible {
+  border-color: var(--blue-accent);
+  box-shadow: 0 0 0 2px rgba(10, 132, 255, 0.25);
+}
+
+.form-error {
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  color: #ff4757;
+}
+
+.password-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--text-muted);
+  user-select: none;
+  transition: opacity 0.2s ease;
+}
+
+.eye-icon:hover {
+  opacity: 0.6;
+}
+
+
+/* =========================================================
+   TIMETABLE
+   ========================================================= */
+
+.timetable-wrapper {
+  overflow-x: auto;
+  border-radius: 1rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.timetable {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 1rem;
+}
+
+.timetable caption {
+  text-align: left;
+  padding: 1rem 1.2rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--bg-card-tint);
+}
+
+.timetable th {
+  background: linear-gradient(90deg, var(--navy-dark), var(--navy-mid));
+  color: white;
+  padding: 0.9rem;
+}
+
+.timetable td {
+  padding: 0.8rem;
+  border-bottom: 1px solid #e5e8ef;
+}
+
+.timetable tr:nth-child(even) {
+  background: #f7faff;
+}
+
+/* =========================================================
+   EVENTS
+   ========================================================= */
+
+.events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.event {
+  padding: 1rem 1.2rem;
+  border-left: 4px solid var(--blue-accent);
+  background: white;
+  border-radius: 0.9rem;
+  box-shadow: var(--shadow-soft);
+}
+
+/* =========================================================
+   ADMIN LOGIN
+   ========================================================= */
+
+
+.admin-login-link {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+}
+
+.admin-login-link a {
+  color: white;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: 0.2s ease;
+}
+
+.admin-login-link a:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* =========================================================
+   CONTACT REGISTRATION LOGIN
+   ========================================================= */
+
+
+.contact-login-link {
+  position: absolute;
+  top: 70px;
+  right: 25px;
+}
+
+.contact-login-link a {
+  color: white;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: 0.2s ease;
+}
+
+.contact-login-link a:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+  background: var(--navy-dark);
+  color: #dbe6ff;
+  text-align: center;
+  padding: 1.5rem;
+  margin-top: 3rem;
+}
