@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile – Student Companion</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="wrapper header-flex">
+      <div class="logo">
+        <a href="index.html">Student Companion</a>
+      </div>
+      <div class="header-icons">
+        <button id="notif-btn" class="icon-btn">
+          🔔
+          <span id="notif-count" class="notif-count">3</span>
+        </button>
+        <button class="btn-secondary btn" onclick="
+        localStorage.removeItem('studentNumber');
+        localStorage.removeItem('studentName');
+        localStorage.removeItem('studentLoginIN');
+        window.location.href='login.html';
+      ">
+        Logout
+      </button>
+      </div>
+    </div>
+  </header>
+
+  <div id="notif-panel" class="notif-panel" hidden>
+    <h3>Notifications</h3>
+    <ul id="notifications-list">
+    <li>Loading notifications…</li>
+  </ul>
+</div>
+
+  <nav>
+    <div class="wrapper">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="timetable.html">Timetable</a></li>
+        <li><a href="events.html">News & Events</a></li>
+        <li><a href="profile.html" aria-current="page">Profile</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main" class="wrapper">
+    <h1>My Profile</h1>
+
+    <div class="grid">
+        <!-- STUDENT INFO -->
+      <section class="card" aria-label="Student information">
+        <h2>Student Info</h2>
+        <p><strong>Name:</strong> <span id="p-name"></span></p>
+        <p><strong>Student Number:</strong> <span id="p-number"></span></p>
+        <p><strong>Date of Birth:</strong> <span id="p-dob"></span></p>
+        <p><strong>Year:</strong> <span id="p-year"></span></p>
+      </section>
+
+      <!-- CONTACT DETAILS -->
+      <section class="card" aria-label="Contact details">
+        <h2>Contact Details</h2>
+        <p><strong>University Email Address:</strong> <span id="p-email"></span></p>
+        <p><strong>Phone Number:</strong> <span id="p-phone"></span></p>
+        <p><strong>Address:</strong> <span id="p-address"></span></p>
+      </section>
+
+      <!-- COURSE INFORMATION -->
+      <section class="card" aria-label="Course information">
+        <h2>Course Information</h2>
+        <p><strong>Course Name:</strong> <span id="p-course-name"></span></p>
+        <p><strong>Department:</strong> <span id="p-department"></span></p>
+        <p><strong>Duration:</strong> <span id="p-duration"></span></p>
+        <p><strong>Course Code:</strong> <span id="p-course-code"></span></p>
+      </section>
+
+      <!-- OUICK LINKS-->
+      <section class="card" aria-label="Quick actions">
+        <h2>Quick Actions</h2>
+        <button class="btn" type="button">Download the Digital Student ID</button>
+        <br><br>
+        <button class="btn" type="button" onclick="window.open('https://m365.cloud.microsoft/apps/', '_blank')" >Microsoft 365</button>
+        <br><br>
+        <button class="btn" type="button" onclick="window.open('https://brightspace.tudublin.ie/', '_blank')" >Brightspace</button>
+      </section>
+
+      <!-- NEED HELP LINKS-->
+      <section class="card" aria-label="Quick actions">
+        <h2>Need Help?</h2>
+        <p>Contact the University Support Admin now!</p>
+        <button class="btn" type="button" onclick="window.location.href='mailto:support@university.com'">Email Univeristy Support Admin</button>
+        <br><br>
+        <button class="btn" type="button" onclick="window.location.href='tel:+3531234567'">Call University Support Admin</button>
+      </section>
+
+      <!-- UPDATE CONTACT DETAILS -->
+      <section class="card" aria-label="Update contact details">
+        <h2>Update Contact Details</h2>
+
+        <label for="edit-phone"><strong>Phone Number:</strong></label>
+        <input type="text" id="edit-phone" class="input-field" placeholder="Enter new phone number">
+
+        <label for="edit-address"><strong>Address:</strong></label>
+        <input type="text" id="edit-address" class="input-field" placeholder="Enter new address">
+        <br><br>
+        <button class="btn" id="save-contact-btn">Save Changes</button>
+
+        <p id="update-status" style="margin-top:10px; color:green;"></p>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 Student Companion
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

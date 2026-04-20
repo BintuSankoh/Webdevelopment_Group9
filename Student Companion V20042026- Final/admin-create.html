@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Student – Admin Panel</title>
+  <link rel="stylesheet" href="styles.css" />
+
+  <script>
+    const SUPABASE_URL = "https://tqrngdjuuhsxvploruwd.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxcm5nZGp1dWhzeHZwbG9ydXdkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4OTYzNTksImV4cCI6MjA5MTQ3MjM1OX0.W8LZRV71_cSny4mwOS12--iPRv3wfARBV1lNU_Ts45Y";
+
+const TABLE_ENROL = "student_enrolment";
+const TABLE_LOGIN = "student_login_details";
+const TABLE_DETAILS = "student_details";
+
+function buildHeaders() {
+  return {
+    "Content-Type": "application/json",
+    apikey: SUPABASE_KEY,
+    Authorization: `Bearer ${SUPABASE_KEY}`,
+  };
+}
+
+// Insert into student_enrolment
+async function insertEnrolment(data) {
+  return fetch(`${SUPABASE_URL}/rest/v1/${TABLE_ENROL}`, {
+    method: "POST",
+    headers: buildHeaders(),
+    body: JSON.stringify(data),
+  });
+}
+
+// Insert into student_login_details
+async function insertLogin(student_number, student_name) {
+  return fetch(`${SUPABASE_URL}/rest/v1/${TABLE_LOGIN}`, {
+    method: "POST",
+    headers: buildHeaders(),
+    body: JSON.stringify({
+      student_number,
+      student_name,
+      password: "password"
+    }),
+  });
+}
+
+// Insert into student_details
+async function insertDetails(data) {
+  return fetch(`${SUPABASE_URL}/rest/v1/${TABLE_DETAILS}`, {
+    method: "POST",
+    headers: buildHeaders(),
+    body: JSON.stringify({
+      student_number: data.student_number,
+      student_name: data.student_name,
+      student_email: data.student_email || "No Information",
+      course_code: data.course_code || "No Information",
+      dob: data.dob || "No Information",
+      year: data.year || "No Information"
+    }),
+  });
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  if (!localStorage.getItem("adminID")) {
+    window.location.href = "admin-login.html";
+    return;
+  }
+
+  const studentNumberInput = document.getElementById("studentNumber");
+  const studentNameInput = document.getElementById("studentName");
+  const dobInput = document.getElementById("dob");
+  const emailInput = document.getElementById("email");
+  const courseCodeInput = document.getElementById("courseCode");
+  const courseNameInput = document.getElementById("courseName");
+  const enrolmentDateInput = document.getElementById("enrolmentDate");
+  const registrationStatusInput = document.getElementById("registrationStatus");
+  const paymentStatusInput = document.getElementById("paymentStatus");
+  const yearInput = document.getElementById("year");
+
+  const addStudentBtn = document.getElementById("addStudentBtn");
+  const resetBtn = document.getElementById("resetBtn");
+  const statusMessage = document.getElementById("statusMessage");
+
+  function showMessage(text, type = "success") {
+    statusMessage.textContent = text;
+    statusMessage.className = `message ${type}`;
+  }
+
+  function clearMessage() {
+    statusMessage.textContent = "";
+    statusMessage.className = "message";
+  }
+
+  function getFormData() {
+    return {
+      student_number: studentNumberInput.value.trim(),
+      student_name: studentNameInput.value.trim(),
+      dob: dobInput.value.trim(),
+      student_email: emailInput.value.trim(),
+      course_code: courseCodeInput.value.trim(),
+      course_name: courseNameInput.value.trim(),
+      enrollment_date: enrolmentDateInput.value.trim(),
+      registration_status: registrationStatusInput.value,
+      payment_status: paymentStatusInput.value,
+      year: yearInput.value.trim(),
+    };
+  }
+
+  function validateForm(data) {
+    if (!data.student_number) return showMessage("Student number is required.", "error"), false;
+    if (!data.student_name) return showMessage("Student name is required.", "error"), false;
+    if (!data.student_email) return showMessage("Email is required.", "error"), false;
+    if (!data.course_code || !data.course_name) return showMessage("Course details required.", "error"), false;
+    if (!data.enrollment_date) return showMessage("Enrolment date required.", "error"), false;
+    if (!data.registration_status) return showMessage("Registration status required.", "error"), false;
+    if (!data.payment_status) return showMessage("Payment status required.", "error"), false;
+    if (!data.year) return showMessage("Year required.", "error"), false;
+    return true;
+  }
+
+  function resetForm() {
+    studentNumberInput.value = "";
+    studentNameInput.value = "";
+    dobInput.value = "";
+    emailInput.value = "";
+    courseCodeInput.value = "";
+    courseNameInput.value = "";
+    enrolmentDateInput.value = "";
+    registrationStatusInput.value = "";
+    paymentStatusInput.value = "";
+    yearInput.value = "";
+    clearMessage();
+  }
+
+  addStudentBtn.addEventListener("click", async () => {
+    clearMessage();
+    const data = getFormData();
+
+    if (!validateForm(data)) return;
+
+    try {
+      addStudentBtn.disabled = true;
+      addStudentBtn.textContent = "Saving...";
+
+      // Insert into student_enrolment
+      await insertEnrolment(data);
+
+      // Insert into student_login_details
+      await insertLogin(data.student_number, data.student_name);
+
+      // Insert into student_details
+      await insertDetails(data);
+
+      showMessage("Student created successfully!", "success");
+      resetForm();
+
+    } catch (error) {
+      console.error(error);
+      showMessage("Error creating student. Check console.", "error");
+    } finally {
+      addStudentBtn.disabled = false;
+      addStudentBtn.textContent = "Add student";
+    }
+  });
+
+  resetBtn.addEventListener("click", resetForm);
+});
+</script>
+
+</head>
+
+<body>
+
+  <header>
+    <div class="wrapper header-flex">
+      <div class="logo">
+        <a href="admin-dashboard.html">Admin Panel</a>
+      </div>
+      <button class="btn-secondary btn" onclick="
+        localStorage.removeItem('adminID');
+        localStorage.removeItem('adminUsername');
+        window.location.href='admin-login.html';
+      ">
+        Logout
+      </button>
+    </div>
+  </header>
+
+  <nav>
+    <div class="wrapper">
+      <ul>
+        <li><a href="admin-dashboard.html">Dashboard</a></li>
+        <li><a href="admin-create.html" aria-current="page">Add Student</a></li>
+        <li><a href="admin-edit.html">Edit Student</a></li>
+        <li><a href="admin-delete.html">Delete Student</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="wrapper">
+
+    <h1>Add New Student</h1>
+    <p class="page-intro">Fill in the student details below to add a new enrolment record.</p>
+
+    <section class="card" style="margin-top: 1.5rem;">
+      <h2>Student Details</h2>
+
+      <div class="grid" style="margin-top: 1rem;">
+
+        <label>
+          Student Number
+          <input id="studentNumber" type="text" placeholder="S12345" />
+        </label>
+
+        <label>
+          Student Name
+          <input id="studentName" type="text" placeholder="Full name" />
+        </label>
+
+        <label>
+          Date of Birth
+          <input id="dob" type="date" />
+        </label>
+
+        <label>
+          Email
+          <input id="email" type="email" placeholder="name@example.com" />
+        </label>
+
+        <label>
+          Course Code
+          <input id="courseCode" type="text" placeholder="E.g. CS101" />
+        </label>
+
+        <label>
+          Course Name
+          <input id="courseName" type="text" placeholder="E.g. Web Development" />
+        </label>
+
+        <label>
+          Enrolment Date
+          <input id="enrolmentDate" type="date" />
+        </label>
+
+        <label>
+          Registration Status
+          <select id="registrationStatus">
+            <option value="">Select status</option>
+            <option>Active</option>
+            <option>Pending</option>
+            <option>Completed</option>
+          </select>
+        </label>
+
+        <label>
+          Payment Status
+          <select id="paymentStatus">
+            <option value="">Select payment</option>
+            <option>Paid</option>
+            <option>Pending</option>
+            <option>Overdue</option>
+          </select>
+        </label>
+
+        <label>
+          Year
+          <input id="year" type="text" placeholder="E.g. 1, 2, 3, 4" />
+        </label>
+
+      </div>
+
+      <div style="margin-top: 1.5rem;">
+        <button id="addStudentBtn" class="btn">Add student</button>
+        <button id="resetBtn" class="btn" style="margin-left: 1rem; background: #ccc; color: #000;">Reset form</button>
+      </div>
+
+      <p id="statusMessage" class="message" style="margin-top: 1rem;"></p>
+    </section>
+
+  </main>
+
+  <footer>
+    &copy; 2026 Student Companion – Admin Panel
+  </footer>
+
+</body>
+</html>

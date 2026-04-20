@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Student – Admin Panel</title>
+  <link rel="stylesheet" href="styles.css" />
+
+  <script>
+    const SUPABASE_URL = "https://tqrngdjuuhsxvploruwd.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxcm5nZGp1dWhzeHZwbG9ydXdkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4OTYzNTksImV4cCI6MjA5MTQ3MjM1OX0.W8LZRV71_cSny4mwOS12--iPRv3wfARBV1lNU_Ts45Y";
+    const TABLE_NAME = "student_enrolment";
+
+    function buildHeaders() {
+      return {
+        "Content-Type": "application/json",
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+      };
+    }
+
+    async function fetchStudents() {
+      const response = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE_NAME}?select=*`, {
+        headers: buildHeaders(),
+      });
+      if (!response.ok) throw new Error("Failed to fetch students");
+      return response.json();
+    }
+
+    async function updateStudent(student_number, data) {
+      const response = await fetch(
+        `${SUPABASE_URL}/rest/v1/${TABLE_NAME}?student_number=eq.${student_number}`,
+        {
+          method: "PATCH",
+          headers: buildHeaders(),
+          body: JSON.stringify(data),
+        }
+      );
+      if (!response.ok) throw new Error("Failed to update student");
+      return response.json();
+    }
+
+    let allStudents = [];
+
+    function showMessage(text, type = "success") {
+      const msg = document.getElementById("statusMessage");
+      msg.textContent = text;
+      msg.className = `message ${type}`;
+    }
+
+    function clearMessage() {
+      const msg = document.getElementById("statusMessage");
+      msg.textContent = "";
+      msg.className = "message";
+    }
+
+    function filterStudents(term) {
+      const q = term.trim().toLowerCase();
+      if (!q) return allStudents;
+
+      return allStudents.filter((s) => {
+        const combined = [
+          s.student_number,
+          s.student_name,
+          s.dob,
+          s.student_email,
+          s.course_code,
+          s.course_name,
+          s.enrollment_date,
+          s.registration_status,
+          s.payment_status,
+          s.year,
+        ]
+          .filter(Boolean)
+          .map((v) => String(v).toLowerCase())
+          .join(" ");
+        return combined.includes(q);
+      });
+    }
+
+    function renderTable(students) {
+      const tbody = document.getElementById("studentsBody");
+      tbody.innerHTML = "";
+
+      if (!students.length) {
+        tbody.innerHTML = `<tr><td colspan="11">No matching students found.</td></tr>`;
+        return;
+      }
+
+      students.forEach((s) => {
+        const row = document.createElement("tr");
+        row.dataset.studentNumber = s.student_number;
+
+        row.innerHTML = `
+          <td>${s.student_number ?? ""}</td>
+          <td>${s.student_name ?? ""}</td>
+          <td>${s.dob ?? ""}</td>
+          <td>${s.student_email ?? ""}</td>
+          <td>${s.course_code ?? ""}</td>
+          <td>${s.course_name ?? ""}</td>
+          <td>${s.enrollment_date ?? ""}</td>
+          <td>${s.registration_status ?? ""}</td>
+          <td>${s.payment_status ?? ""}</td>
+          <td>${s.year ?? ""}</td>
+          <td><button class="btn edit-btn">Edit</button></td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function convertRowToInputs(row) {
+      const cells = row.querySelectorAll("td");
+      const values = Array.from(cells).map((c) => c.textContent.trim());
+
+      row.innerHTML = `
+        <td><input value="${values[0]}" disabled></td>
+        <td><input value="${values[1]}"></td>
+        <td><input value="${values[2]}"></td>
+        <td><input value="${values[3]}"></td>
+        <td><input value="${values[4]}"></td>
+        <td><input value="${values[5]}"></td>
+        <td><input value="${values[6]}"></td>
+        <td><input value="${values[7]}"></td>
+        <td><input value="${values[8]}"></td>
+        <td><input value="${values[9]}"></td>
+        <td>
+          <button class="btn save-btn">Save</button>
+          <button class="btn cancel-btn" style="background:#ccc;color:#000;">Cancel</button>
+        </td>
+      `;
+    }
+
+    function restoreRow(row, s) {
+      row.innerHTML = `
+        <td>${s.student_number ?? ""}</td>
+        <td>${s.student_name ?? ""}</td>
+        <td>${s.dob ?? ""}</td>
+        <td>${s.student_email ?? ""}</td>
+        <td>${s.course_code ?? ""}</td>
+        <td>${s.course_name ?? ""}</td>
+        <td>${s.enrollment_date ?? ""}</td>
+        <td>${s.registration_status ?? ""}</td>
+        <td>${s.payment_status ?? ""}</td>
+        <td>${s.year ?? ""}</td>
+        <td><button class="btn edit-btn">Edit</button></td>
+      `;
+    }
+
+    async function loadStudents() {
+      try {
+        const data = await fetchStudents();
+        allStudents = data;
+        renderTable(allStudents);
+      } catch (err) {
+        console.error(err);
+        showMessage("Failed to load students", "error");
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      if (!localStorage.getItem("adminID")) {
+        window.location.href = "admin-login.html";
+        return;
+      }
+
+      const searchInput = document.getElementById("searchInput");
+      const tbody = document.getElementById("studentsBody");
+
+      searchInput.addEventListener("input", () => {
+        renderTable(filterStudents(searchInput.value.trim()));
+      });
+
+      tbody.addEventListener("click", async (e) => {
+        const row = e.target.closest("tr");
+        if (!row) return;
+
+        const student_number = row.dataset.studentNumber;
+
+        if (e.target.classList.contains("edit-btn")) {
+          convertRowToInputs(row);
+        }
+
+        if (e.target.classList.contains("cancel-btn")) {
+          const original = allStudents.find((s) => s.student_number == student_number);
+          restoreRow(row, original);
+        }
+
+        if (e.target.classList.contains("save-btn")) {
+          const inputs = row.querySelectorAll("input");
+          const updated = {
+            student_name: inputs[1].value,
+            dob: inputs[2].value,
+            student_email: inputs[3].value,
+            course_code: inputs[4].value,
+            course_name: inputs[5].value,
+            enrollment_date: inputs[6].value,
+            registration_status: inputs[7].value,
+            payment_status: inputs[8].value,
+            year: inputs[9].value,
+          };
+
+          try {
+            await updateStudent(student_number, updated);
+            showMessage("Student updated successfully");
+
+            const index = allStudents.findIndex((s) => s.student_number == student_number);
+            allStudents[index] = { ...allStudents[index], ...updated };
+
+            restoreRow(row, allStudents[index]);
+          } catch (err) {
+            console.error(err);
+            showMessage("Update failed", "error");
+          }
+        }
+      });
+
+      loadStudents();
+    });
+  </script>
+</head>
+
+<body>
+
+  <header>
+    <div class="wrapper header-flex">
+      <div class="logo">
+        <a href="admin-dashboard.html">Admin Panel</a>
+      </div>
+      <button class="btn-secondary btn" onclick="
+        localStorage.removeItem('adminID');
+        localStorage.removeItem('adminUsername');
+        window.location.href='admin-login.html';
+      ">
+        Logout
+      </button>
+    </div>
+  </header>
+
+  <nav>
+    <div class="wrapper">
+      <ul>
+        <li><a href="admin-dashboard.html">Dashboard</a></li>
+        <li><a href="admin-create.html">Add Student</a></li>
+        <li><a href="admin-edit.html" aria-current="page">Edit Student</a></li>
+        <li><a href="admin-delete.html">Delete Student</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="wrapper">
+
+    <h1>Edit Student</h1>
+    <p class="page-intro">Search for a student and edit their details directly in the table.</p>
+
+    <section class="card" style="margin-top: 1.5rem;">
+      <h2>Search Students</h2>
+      <input id="searchInput" type="search" placeholder="Search by name, email, course, or ID" style="margin-top: 1rem;">
+      <p id="statusMessage" class="message" style="margin-top: 1rem;"></p>
+    </section>
+
+    <section class="card" style="margin-top: 2rem;">
+      <h2>Student Records</h2>
+
+      <div class="timetable-wrapper" style="margin-top: 1rem;">
+        <table class="timetable">
+          <thead>
+            <tr>
+              <th>Student Number</th>
+              <th>Student Name</th>
+              <th>Date of Birth</th>
+              <th>Email</th>
+              <th>Course Code</th>
+              <th>Course Name</th>
+              <th>Enrolment Date</th>
+              <th>Registration Status</th>
+              <th>Payment Status</th>
+              <th>Year</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody id="studentsBody">
+            <tr><td colspan="11">Loading students...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    &copy; 2026 Student Companion – Admin Panel
+  </footer>
+
+</body>
+</html>

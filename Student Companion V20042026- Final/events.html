@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events – Student Companion</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="wrapper header-flex">
+      <div class="logo">
+        <a href="index.html">Student Companion</a>
+      </div>
+      <div class="header-icons">
+        <button id="notif-btn" class="icon-btn">
+          🔔
+          <span id="notif-count" class="notif-count">3</span>
+        </button>
+        <button class="btn-secondary btn" onclick="
+        localStorage.removeItem('studentNumber');
+        localStorage.removeItem('studentName');
+        localStorage.removeItem('studentLoginIN');
+        window.location.href='login.html';
+      ">
+        Logout
+      </button>
+      </div>
+    </div>
+  </header>
+
+  <div id="notif-panel" class="notif-panel" hidden>
+    <h3>Notifications</h3>
+    <ul id="notifications-list">
+    <li>Loading notifications…</li>
+  </ul>
+</div>
+
+  <nav>
+    <div class="wrapper">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="timetable.html">Timetable</a></li>
+        <li><a href="events.html" aria-current="page">News & Events</a></li>
+        <li><a href="profile.html">Profile</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main" class="wrapper">
+    <h1>News and Events</h1>
+    <section class="events-list" aria-label="Upcoming events">
+      <article class="event">
+        <h3>Exam Results Partially Published — Further Delays Expected</h3>
+        <p>Posted 17 Apr 2026 · Examinations Office </p>
+        <p>Following an earlier delay to the release of semester results, the Examinations Office has confirmed 
+          that a number of results are now available to view on the student portal. Remaining results are still being 
+          processed and are expected to be published within the next two weeks. Students are asked to check their
+           portal regularly for updates.</p>
+      </article>
+
+      <article class="event">
+        <h3>Summer Exam Timetables Now Live</h3>
+        <p>Posted 15 Apr 2026 · Examinations Office</p>
+        <p>The summer examination timetable has been published on the student portal. All students should review their 
+          scheduled dates and times and report any clashes or conflicts to the Examinations Office no later than 25 April.</p>
+      </article>
+
+      <article class="event">
+        <h3>Archery Club Open Day — New Members Welcome</h3>
+        <p>Posted 14 Apr 2026 · Student Union</p>
+        <p>The college Archery Club is hosting an open day on 26 April for students interested in joining. 
+          No experience is needed — equipment is provided and qualified instructors will be on hand. 
+          The club competes in regional tournaments and meets every Wednesday evening. Sign up at the Student Union desk or drop in on the day.</p>
+      </article>
+
+      <article class="event">
+        <h3>Drama Society Seeking New Members Ahead of Summer Production</h3>
+        <p>Posted 12 Apr 2026 · Student Union</p>
+        <p>The Drama Society is holding open auditions and crew sign-ups for their summer production. 
+          Whether you're interested in performing, set design, lighting, or stage management, all are welcome. 
+          Auditions take place on 29 April in the Performing Arts Studio.</p>
+      </article>
+
+      <article class="event">
+        <h3>Library Extended Hours for Exam Season</h3>
+        <p>Posted 11 Apr 2026 · Library Services</p>
+        <p>From 28 April, the main library will remain open until midnight to support students during the exam period. 
+          Study room bookings can be made through the library portal up to three days in advance.</p>
+      </article>
+
+    </section>
+   
+  </main>
+
+  <footer>
+    &copy; 2026 Student Companion
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard – Student Companion</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="wrapper header-flex">
+      <div class="logo">
+        <a href="index.html">Student Companion</a>
+      </div>
+      <div class="header-icons">
+        <button id="notif-btn" class="icon-btn">
+          🔔
+          <span id="notif-count" class="notif-count">3</span>
+        </button>
+        <button class="btn-secondary btn" onclick="
+        localStorage.removeItem('studentNumber');
+        localStorage.removeItem('studentName');
+        localStorage.removeItem('studentLoginIN');
+        window.location.href='login.html';
+      ">
+        Logout
+      </button>
+      </div>
+    </div>
+  </header>
+
+  <div id="notif-panel" class="notif-panel" hidden>
+    <h3>Notifications</h3>
+    <ul id="notifications-list">
+    <li>Loading notifications…</li>
+  </ul>
+</div>
+
+  <nav>
+    <div class="wrapper">
+      <ul>
+        <li><a href="index.html" aria-current="page">Home</a></li>
+        <li><a href="timetable.html">Timetable</a></li>
+        <li><a href="events.html">News & Events</a></li>
+        <li><a href="profile.html">Profile</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main" class="wrapper">
+    <h1 id="welcome-text"></h1>
+    <p class="page-intro">Here’s a quick overview of what’s happening at University.</p>
+
+    <h2>Announcements</h2>
+    <div class="grid" id="announcements-list">
+      <p>Loading announcements…</p>
+    </div>
+
+    <h2 style="margin-top:2rem;">Work Due Soon</h2>
+    <div class="grid">
+      <article class="card">
+        <h3>Critical Skills CA</h3>
+        <p>Due: 24 April 2026 @23:59</p>
+      </article>
+      <article class="card">
+        <h3>Maths Problem Set 4</h3>
+        <p>Due: 30 April 2026 @17:00</p>
+      </article>
+      <article class="card">
+        <h3>Lab Report</h3>
+        <p>Due: 1 May 2026 @23:59</p>
+      </article>
+    </div>
+
+  </main>
+
+  <footer>
+    &copy; 2026 Student Companion
+  </footer>
+
+<script src="script.js"></script>
+</body>
+</html>

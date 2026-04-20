@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard – Student Enrolment</title>
+  <link rel="stylesheet" href="styles.css" />
+
+  <script>
+    const SUPABASE_URL = "https://tqrngdjuuhsxvploruwd.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxcm5nZGp1dWhzeHZwbG9ydXdkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4OTYzNTksImV4cCI6MjA5MTQ3MjM1OX0.W8LZRV71_cSny4mwOS12--iPRv3wfARBV1lNU_Ts45Y";
+    const TABLE_NAME = "student_enrolment";
+
+    function buildHeaders() {
+      return {
+        "Content-Type": "application/json",
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+      };
+    }
+
+    async function fetchStudents() {
+      const response = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE_NAME}?select=*`, {
+        headers: buildHeaders(),
+      });
+      if (!response.ok) throw new Error(`Supabase fetchStudents failed: ${response.statusText}`);
+      return response.json();
+    }
+
+    let allStudents = [];
+
+    function filterStudents(searchTerm) {
+      const q = String(searchTerm || "").trim().toLowerCase();
+      if (!q) return allStudents;
+
+      return allStudents.filter((s) => {
+        const combined = [
+          s.student_number,
+          s.student_name,
+          s.dob,
+          s.student_email,
+          s.course_code,
+          s.course_name,
+          s.enrollment_date,
+          s.registration_status,
+          s.payment_status,
+          s.year,
+        ]
+          .filter(Boolean)
+          .map((v) => String(v).toLowerCase())
+          .join(" ");
+        return combined.includes(q);
+      });
+    }
+
+    function renderStudentTable(students) {
+      const tableBody = document.getElementById("student_enrolment");
+      const statusEl = document.getElementById("status");
+
+      if (!students || students.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="10">No matching students found.</td></tr>';
+        if (statusEl) statusEl.textContent = "";
+        return;
+      }
+
+      tableBody.innerHTML = "";
+      students.forEach((s) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${s.student_number ?? ""}</td>
+          <td>${s.student_name ?? ""}</td>
+          <td>${s.dob ?? ""}</td>
+          <td>${s.student_email ?? ""}</td>
+          <td>${s.course_code ?? ""}</td>
+          <td>${s.course_name ?? ""}</td>
+          <td>${s.enrollment_date ?? ""}</td>
+          <td>${s.registration_status ?? ""}</td>
+          <td>${s.payment_status ?? ""}</td>
+          <td>${s.year ?? ""}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    async function loadStudents() {
+      const tableBody = document.getElementById("student_enrolment");
+      const statusEl = document.getElementById("status");
+      const countEl = document.getElementById("totalCount");
+
+      tableBody.innerHTML = '<tr><td colspan="10">Loading students…</td></tr>';
+
+      try {
+        const data = await fetchStudents();
+        allStudents = data || [];
+        if (countEl) countEl.textContent = allStudents.length;
+
+        if (!allStudents.length) {
+          tableBody.innerHTML = '<tr><td colspan="10">No students available yet.</td></tr>';
+          if (statusEl) statusEl.textContent = "Add a student to see them here.";
+          return;
+        }
+
+        renderStudentTable(allStudents);
+      } catch (error) {
+        console.error("Error loading students:", error);
+        tableBody.innerHTML = '<tr><td colspan="10">Unable to load students.</td></tr>';
+        if (statusEl) {
+          statusEl.textContent = "Could not load students. Check console for details.";
+          statusEl.className = "status error";
+        }
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", async () => {
+      if (!localStorage.getItem("adminID")) {
+        window.location.href = "admin-login.html";
+        return;
+      }
+
+      const searchInput = document.getElementById("searchInput");
+      if (searchInput) {
+        searchInput.addEventListener("input", () => {
+          renderStudentTable(filterStudents(searchInput.value));
+        });
+      }
+
+      await loadStudents();
+    });
+  </script>
+</head>
+
+<body>
+
+  <header>
+    <div class="wrapper header-flex">
+      <div class="logo">
+        <a href="admin-dashboard.html">Admin Panel</a>
+      </div>
+      <button class="btn-secondary btn" onclick="
+        localStorage.removeItem('adminID');
+        localStorage.removeItem('adminUsername');
+        window.location.href='admin-login.html';
+      ">
+        Logout
+      </button>
+    </div>
+  </header>
+
+  <nav>
+    <div class="wrapper">
+      <ul>
+        <li><a href="admin-dashboard.html" aria-current="page">Dashboard</a></li>
+        <li><a href="admin-create.html">Add Student</a></li>
+        <li><a href="admin-edit.html">Edit Student</a></li>
+        <li><a href="admin-delete.html">Delete Student</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="wrapper">
+
+    <h1>Student Enrolment Dashboard</h1>
+    <p class="page-intro">Overview of all students currently enrolled in the system.</p>
+
+    <div class="grid" style="margin-top: 1.5rem;">
+      <section class="card">
+        <h3>Total Enrolled Students</h3>
+        <p style="font-size: 2rem; font-weight: 700;" id="totalCount">0</p>
+        <p class="page-intro">Total number of students tracked in the system.</p>
+      </section>
+
+      <section class="card">
+        <h3>Quick Access Shortcuts</h3>
+        <p class="page-intro">Jump directly to common admin actions.</p>
+        <button class="btn" onclick="window.location.href='admin-create.html'">Add Student</button>
+        <br><br>
+        <button class="btn" onclick="window.location.href='admin-edit.html'">Edit Student</button>
+        <br><br>
+        <button class="btn" onclick="window.location.href='admin-delete.html'">Delete Student</button>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top: 2rem;">
+      <h2>Search Students</h2>
+      <input id="searchInput" type="search" placeholder="Search by name, email, course, or ID" style="margin-top: 1rem;">
+      <div id="status" class="status" style="margin-top: 1rem;"></div>
+    </section>
+
+    <section class="card" style="margin-top: 2rem;">
+      <h2>Recent Student Preview</h2>
+      <div class="timetable-wrapper" style="margin-top: 1rem;">
+        <table class="timetable student-table">
+          <thead>
+            <tr>
+              <th>Student Number</th>
+              <th>Student Name</th>
+              <th>Date of Birth</th>
+              <th>Email</th>
+              <th>Course Code</th>
+              <th>Course Name</th>
+              <th>Enrolment Date</th>
+              <th>Registration Status</th>
+              <th>Payment Status</th>
+              <th>Year</th>
+            </tr>
+          </thead>
+          <tbody id="student_enrolment">
+            <tr><td colspan="10">Loading students…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    &copy; 2026 Student Companion – Admin Panel
+  </footer>
+
+</body>
+</html>
+

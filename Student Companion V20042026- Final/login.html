@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Login – Student Companion</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <main id="main" class="login-page" aria-labelledby="login-title">
+    <section class="login-card" role="form">
+      <h1 id="login-title">Student Companion</h1>
+      <p>Sign in with your student credentials to access your profile, timetable, and events.</p>
+
+      <form id="login-form" novalidate>
+        <div class="form-group">
+          <label for="student-id">Student ID</label>
+          <input
+            type="text"
+            id="student-id"
+            name="student-id"
+            autocomplete="username"
+            placeholder="e.g. SXXXX"
+            required
+          >
+          <div class="form-error" id="student-id-error" aria-live="polite"></div>
+        </div>
+
+        <div class="form-group password-wrapper">
+          <label for="password">Password</label>
+          <div class="password-field">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              autocomplete="current-password"
+              placeholder="Enter your password"
+              required
+            >
+            <span id="toggle-password" class="eye-icon">👁</span>
+          </div>
+          <div class="form-error" id="password-error" aria-live="polite"></div>
+        </div>
+
+        <button type="submit" class="btn" id="login-btn">Login</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+
+   <div class="contact-login-link" >
+    <a onclick="window.location.href='mailto:registration@university.com?subject=Registration%20Help'">Contact Registration</a>
+  </div>
+
+  <div class="admin-login-link">
+    <a href="admin-login.html">Admin Login</a>
+  </div>
+
+</body>
+</html>
