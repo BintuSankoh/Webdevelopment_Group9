@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Companion - Events</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Georgia, 'Times New Roman', serif; background: #f0f0f0; color: #1a1a2e; }
+
+  .topbar {
+    background: #1a2744;
+    padding: 14px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .topbar h1 { color: #fff; font-size: 1.25rem; font-weight: 700; letter-spacing: 0.01em; }
+  .topbar button {
+    background: transparent;
+    border: 1.5px solid #fff;
+    color: #fff;
+    padding: 6px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+
+  nav {
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 0 32px;
+    display: flex;
+    gap: 0;
+  }
+  nav a {
+    display: inline-block;
+    padding: 14px 20px;
+    font-size: 0.9rem;
+    color: #444;
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+  }
+  nav a:hover { color: #1a2744; }
+  nav a.active {
+    color: #4a90d9;
+    border-bottom: 3px solid #4a90d9;
+    font-weight: 600;
+  }
+
+  .page { display: flex; gap: 24px; padding: 30px 32px; max-width: 1100px; margin: 0 auto; align-items: flex-start; }
+
+  .main-col { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+
+  .card {
+    background: #e8e8e8;
+    border-radius: 6px;
+    padding: 28px 28px 24px;
+  }
+  .card h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 18px; color: #1a1a2e; }
+
+  .event-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid #d0d0d0;
+  }
+  .event-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .event-date {
+    background: #1a2744;
+    color: #fff;
+    border-radius: 5px;
+    padding: 8px 10px;
+    text-align: center;
+    min-width: 48px;
+    flex-shrink: 0;
+  }
+  .event-date .day { font-size: 1.3rem; font-weight: 700; line-height: 1; }
+  .event-date .month { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
+
+  .event-info h3 { font-size: 0.95rem; font-weight: 700; color: #1a1a2e; margin-bottom: 3px; }
+  .event-info p { font-size: 0.82rem; color: #555; line-height: 1.4; }
+  .event-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-top: 5px;
+    font-weight: 600;
+  }
+  .tag-academic { background: #ddeeff; color: #2255aa; }
+  .tag-social { background: #ddf3e4; color: #226644; }
+  .tag-deadline { background: #fde8e8; color: #aa2222; }
+
+  .news-item {
+    padding: 14px 0;
+    border-bottom: 1px solid #d0d0d0;
+  }
+  .news-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .news-item h3 { font-size: 0.95rem; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+  .news-item p { font-size: 0.82rem; color: #555; line-height: 1.5; }
+  .news-meta { font-size: 0.73rem; color: #888; margin-top: 5px; }
+
+  .sidebar { width: 220px; flex-shrink: 0; display: flex; flex-direction: column; gap: 20px; }
+
+  .sidebar-card {
+    background: #1a2744;
+    color: #fff;
+    border-radius: 6px;
+    padding: 20px 18px;
+  }
+  .sidebar-card h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 14px; }
+  .sidebar-card .detail { font-size: 0.82rem; margin-bottom: 6px; color: #ccd6f6; }
+  .sidebar-card .highlight { font-size: 0.95rem; font-weight: 700; color: #fff; }
+
+  .quick-actions {
+    background: #e8e8e8;
+    border-radius: 6px;
+    padding: 20px 18px;
+  }
+  .quick-actions h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 12px; color: #1a1a2e; }
+  .quick-actions ul { list-style: disc; padding-left: 16px; }
+  .quick-actions li { margin-bottom: 8px; }
+  .quick-actions a { font-size: 0.83rem; color: #4a90d9; text-decoration: none; }
+  .quick-actions a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>Student Companion</h1>
+  <button>Log out</button>
+</div>
+
+<nav>
+  <a href="#">Home</a>
+  <a href="#">Timetable</a>
+  <a href="#" class="active">Events</a>
+  <a href="#">Profile</a>
+  <a href="#">Help</a>
+</nav>
+
+<div class="page">
+  <div class="main-col">
+
+    <div class="card">
+      <h2>Upcoming Events</h2>
+
+      <div class="event-item">
+        <div class="event-date"><div class="day">25</div><div class="month">Apr</div></div>
+        <div class="event-info">
+          <h3>Social Communications — CA2 Project Due</h3>
+          <p>Submit via Brightspace by 23:59</p>
+          <span class="event-tag tag-deadline">Deadline</span>
+        </div>
+      </div>
+
+      <div class="event-item">
+        <div class="event-date"><div class="day">2</div><div class="month">May</div></div>
+        <div class="event-info">
+          <h3>Nature of Enterprise — CA3 Due</h3>
+          <p>Submit via Brightspace by 23:59</p>
+          <span class="event-tag tag-deadline">Deadline</span>
+        </div>
+      </div>
+
+      <div class="event-item">
+        <div class="event-date"><div class="day">9</div><div class="month">May</div></div>
+        <div class="event-info">
+          <h3>Web Development — Project Submission</h3>
+          <p>Submit via Brightspace by 23:59</p>
+          <span class="event-tag tag-deadline">Deadline</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Latest News</h2>
+
+      <div class="news-item">
+        <h3>Exam Results Partially Published — Further Delays Expected</h3>
+        <p>Following an earlier delay to the release of semester results, the Examinations Office has confirmed that a number of results are now available to view on the student portal. Remaining results are still being processed and are expected to be published within the next two weeks. Students are asked to check their portal regularly for updates.</p>
+        <div class="news-meta">Posted 17 Apr 2026 · Examinations Office</div>
+      </div>
+
+      <div class="news-item">
+        <h3>Summer Exam Timetables Now Live</h3>
+        <p>The summer examination timetable has been published on the student portal. All students should review their scheduled dates and times and report any clashes or conflicts to the Examinations Office no later than 25 April.</p>
+        <div class="news-meta">Posted 15 Apr 2026 · Examinations Office</div>
+      </div>
+
+      <div class="news-item">
+        <h3>Archery Club Open Day — New Members Welcome</h3>
+        <p>The college Archery Club is hosting an open day on 26 April for students interested in joining. No experience is needed — equipment is provided and qualified instructors will be on hand. The club competes in regional tournaments and meets every Wednesday evening. Sign up at the Student Union desk or drop in on the day.</p>
+        <div class="news-meta">Posted 14 Apr 2026 · Student Union</div>
+      </div>
+
+      <div class="news-item">
+        <h3>Drama Society Seeking New Members Ahead of Summer Production</h3>
+        <p>The Drama Society is holding open auditions and crew sign-ups for their summer production. Whether you're interested in performing, set design, lighting, or stage management, all are welcome. Auditions take place on 29 April in the Performing Arts Studio.</p>
+        <div class="news-meta">Posted 12 Apr 2026 · Student Union</div>
+      </div>
+
+      <div class="news-item">
+        <h3>Library Extended Hours for Exam Season</h3>
+        <p>From 28 April, the main library will remain open until midnight to support students during the exam period. Study room bookings can be made through the library portal up to three days in advance.</p>
+        <div class="news-meta">Posted 11 Apr 2026 · Library Services</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sidebar">
+    <div class="sidebar-card">
+      <h3>Up Next</h3>
+      <div class="detail">14:00 — 16:00</div>
+      <div class="highlight">Software Development</div>
+      <div class="detail" style="margin-top:6px;">Lab 1.02, Main Block</div>
+    </div>
+
+    <div class="quick-actions">
+      <h3>Quick Actions</h3>
+      <ul>
+        <li><a href="#">Download Student ID</a></li>
+        <li><a href="#">View Results</a></li>
+        <li><a href="#">Contact Tutor</a></li>
+        <li><a href="#">Submit Assignment</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
